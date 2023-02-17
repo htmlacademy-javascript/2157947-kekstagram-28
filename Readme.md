@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Кристина Бородина](https://up.htmlacademy.ru/javascript/28/user/2157947).
-* Наставник: `Неизвестно`.
+* Наставник: [Олег Цыганов](https://htmlacademy.ru/profile/olegtsyganov).
 
 ---
 
