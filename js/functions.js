@@ -1,6 +1,6 @@
 // 1 Функция //
 const isLessOrEqual = (string, length) => string.length <= length;
-isLessOrEqual();
+isLessOrEqual('проверяемая строка', 20);
 
 // 2 Функция //
 const isCheckingPalindromes = (string) => {
@@ -11,7 +11,7 @@ const isCheckingPalindromes = (string) => {
   }
   return sourceString === reverseString;
 };
-isCheckingPalindromes();
+isCheckingPalindromes('Кекс');
 
 // 3 Функция //
 const extractNumber = (string) => {
@@ -24,9 +24,9 @@ const extractNumber = (string) => {
       result += string.at(i);
     }
   }
-  return Math.parseInt(result, 10);
+  return parseInt(result, 10);
 };
-extractNumber();
+extractNumber('2023 год');
 // 4 Функция //
 const myPadStart = (string, minLength, pad) => {
   const actualPad = minLength - string.length;
@@ -34,4 +34,4 @@ const myPadStart = (string, minLength, pad) => {
     ? string
     : pad.slice(0, actualPad % pad.length) + pad.repeat(actualPad / pad.length) + string;
 };
-myPadStart();
+myPadStart('qwerty', 4, '0');
