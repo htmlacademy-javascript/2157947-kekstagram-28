@@ -1,6 +1,7 @@
 import { generationThumbnails } from './rendering.js';
-generationThumbnails();
-
 import { getPictures } from './data.js';
-getPictures();
+const pictures = getPictures;
+
+generationThumbnails(pictures());
+
 
