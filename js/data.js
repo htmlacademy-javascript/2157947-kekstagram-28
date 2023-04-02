@@ -1,5 +1,4 @@
 import { getRandomInteger, getRandomArrayElement, createIdGenerator } from './util.js';
-
 const PICTUARE_PHOTO = 25;
 const AVATAR_PHOTO = 6;
 const LIKE_MIN_PHOTO = 15;
