@@ -1,16 +1,11 @@
 const bigPicture = document.querySelector('.big-picture');
 const commentList = document.querySelector('.social__comments');
+const commentItem = document.querySelector('.social__comment');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
 const cancelButton = document.querySelector('.big-picture__cancel');
 
-const hideBigPicture = () => {
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown');
-  commentList.innerHTML = '';
-};
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const onDocumentKeydown = (evt) => {
@@ -20,26 +15,30 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const hideBigPicture = () => {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  commentList.innerHTML = '';
+};
+
 const onCancelButtonClick = () => {
   hideBigPicture();
 };
 
 const createComment = ({ avatar, name, message }) => {
-  const commentElement = document.createElement('li');
-  commentElement.innerHTML =
-    '<img class="social__picture" src="" alt="" width="35" height="35">';
-  commentElement.classList.add('social__comment');
-  commentElement.querySelector('.social__picture').srs = avatar;
-  commentElement.querySelector('.social__picture').alt = name;
-  commentElement.querySelector('.social__text').textContent = message;
+  const coment = commentItem.cloneNode(true);
+  coment.querySelector('.social__picture').src = avatar;
+  coment.querySelector('.social__picture').alt = name;
+  coment.querySelector('.social__text').textContent = message;
 
-  return commentElement;
+  return coment;
 };
 
 const renderComments = (comments) => {
   const fragment = document.createDocumentFragment();
   comments.forEach((commentElement) => {
-    renderComments.append(createComment(commentElement));
+    fragment.append(createComment(commentElement));
   });
 
   commentList.append(fragment);
@@ -59,6 +58,7 @@ const showBigPicture = (data) => {
   commentCount.classList.add('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
   renderPictureDetails(data);
+  commentList.innerHTML = '';
   renderComments(data.comments);
 };
 
