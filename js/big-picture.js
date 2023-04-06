@@ -62,8 +62,7 @@ const hideBigPicture = () => {
 const onCancelButtonClick = () => {
   hideBigPicture();
 };
-const onCommentsLoaderClick = () => { renderComments(coments.slice(comentsShown, comentsShown + COMMENT_PER_PORTION));
-};
+const onCommentsLoaderClick = () => renderComments(coments.slice(comentsShown, comentsShown + COMMENT_PER_PORTION));
 const renderPictureDetails = ({ description, likes, url, text }) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
   bigPicture.querySelector('.big-picture__img img').alt = description;
