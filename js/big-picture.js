@@ -8,39 +8,39 @@ const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
 const cancelButton = document.querySelector('.big-picture__cancel');
 
-let comentsShown = 0;
-const coments = [];
+let commentsArray = [];
 
-const createComment = ({ avatar, name, message }) => {
-  const coment = commentItem.cloneNode(true);
-  coment.querySelector('.social__picture').src = avatar;
-  coment.querySelector('.social__picture').alt = name;
-  coment.querySelector('.social__text').textContent = message;
+const createComment = (commentsData) => {
+  commentsData.forEach(({ avatar, name, message }) => {
+    const comment = commentItem.cloneNode(true);
+    comment.querySelector('.social__picture').src = avatar;
+    comment.querySelector('.social__picture').alt = name;
+    comment.querySelector('.social__text').textContent = message;
 
-  return coment;
+    commentList.append(comment);
+  });
 };
 
-const renderComments = (comments) => {
-  comentsShown += COMMENT_PER_PORTION;
-  if (comentsShown >= coments.length) {
+const showComments = (comments) => {
+  const showCommentss = comments.slice(0, COMMENT_PER_PORTION);
+
+  createComment(showCommentss);
+  commentCount.textContent = `${showCommentss.length} из ${comments.length} комментариев`;
+
+  if (showComments.length >= comments.length) {
     commentsLoader.classList.add('hidden');
-    comentsShown = coments.length;
-  } else {
-    commentsLoader.classList.remove('hidden');
   }
+};
+const loadComments = () => {
+  const additionalComments = commentsArray.slice(commentList.children.length, commentList.children.length + COMMENT_PER_PORTION);
+  createComment(additionalComments);
 
-  const fragment = document.createDocumentFragment();
-  for (let i = 0; i < comentsShown; i++) {
-    const commentElement = createComment(comments[i]);
-    fragment.append(commentElement);
+  commentCount.textContent =
+    `${commentList.children.length} из ${commentsArray.length} комментариев`;
+
+  if (commentsArray.length <= commentList.children.length) {
+    commentsLoader.classList.add('hidden');
   }
-
-  comments.forEach((commentElement) => {
-    fragment.append(createComment(commentElement));
-  });
-  commentList.innerHTML = '';
-  commentList.append(fragment);
-  commentCount.innerHTML = `${comentsShown} из <span class="comments-count" ${coments.lenght} </span> комментариев`;
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -48,7 +48,7 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    hideBigPicture();
+    onCancelButtonClick();
   }
 };
 
@@ -56,13 +56,14 @@ const hideBigPicture = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  comentsShown = 0;
 };
 
 const onCancelButtonClick = () => {
   hideBigPicture();
+  commentsLoader.classList.remove('hidden');
+  commentsLoader.removeEventListener('click', loadComments);
 };
-const onCommentsLoaderClick = () => renderComments(coments.slice(comentsShown, comentsShown + COMMENT_PER_PORTION));
+
 const renderPictureDetails = ({ description, likes, url, text }) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
   bigPicture.querySelector('.big-picture__img img').alt = description;
@@ -73,14 +74,14 @@ const renderPictureDetails = ({ description, likes, url, text }) => {
 const showBigPicture = (data) => {
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
-  commentsLoader.classList.add('hidden');
-  commentCount.classList.add('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
   renderPictureDetails(data);
   commentList.innerHTML = '';
-  renderComments(data.comments);
+  commentsArray = data.comments;
+  commentsLoader.addEventListener('click', loadComments);
+  showComments(data.comments);
 };
 
 cancelButton.addEventListener('click', onCancelButtonClick);
-commentsLoader.addEventListener('click', onCommentsLoaderClick);
+
 export { showBigPicture };
