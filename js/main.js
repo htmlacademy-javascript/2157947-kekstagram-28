@@ -4,4 +4,3 @@ const pictures = getPictures;
 
 renderGallerey(pictures());
 
-
