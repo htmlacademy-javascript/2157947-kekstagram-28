@@ -22,17 +22,18 @@ const createComment = (commentsData) => {
 };
 
 const showComments = (comments) => {
-  const showCommentss = comments.slice(0, COMMENT_PER_PORTION);
+  const сommentsShow = comments.slice(0, COMMENT_PER_PORTION);
 
-  createComment(showCommentss);
-  commentCount.textContent = `${showCommentss.length} из ${comments.length} комментариев`;
+  createComment(сommentsShow);
+  commentCount.textContent = `${сommentsShow.length} из ${comments.length} комментариев`;
 
-  if (showComments.length >= comments.length) {
+  if (сommentsShow.length >= comments.length) {
     commentsLoader.classList.add('hidden');
   }
 };
 const loadComments = () => {
   const additionalComments = commentsArray.slice(commentList.children.length, commentList.children.length + COMMENT_PER_PORTION);
+
   createComment(additionalComments);
 
   commentCount.textContent =
@@ -60,8 +61,8 @@ const hideBigPicture = () => {
 
 const onCancelButtonClick = () => {
   hideBigPicture();
-  commentsLoader.classList.remove('hidden');
   commentsLoader.removeEventListener('click', loadComments);
+  commentsLoader.classList.remove('hidden');
 };
 
 const renderPictureDetails = ({ description, likes, url, text }) => {
